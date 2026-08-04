@@ -1,0 +1,402 @@
+[
+    {
+        "question": "Em que ano o Sport Club Corinthians Paulista foi fundado?",
+        "options": [
+            "1910",
+            "1912",
+            "1914",
+            "1920"
+        ],
+        "correctAnswer": "1910"
+    },
+    {
+        "question": "Qual foi a equipe inglesa que inspirou o nome do Corinthians?",
+        "options": [
+            "Corinthian-Casuals FC",
+            "Arsenal FC",
+            "Sheffield Wednesday",
+            "Nottingham Forest"
+        ],
+        "correctAnswer": "Corinthian-Casuals FC"
+    },
+    {
+        "question": "Quem é o maior artilheiro da história do Corinthians?",
+        "options": [
+            "Cláudio",
+            "Baltazar",
+            "Teleco",
+            "Marcelinho Carioca"
+        ],
+        "correctAnswer": "Cláudio"
+    },
+    {
+        "question": "Qual jogador conquistou o apelido de 'Pé de Anjo' pelas suas cobranças de falta históricas?",
+        "options": [
+            "Neto",
+            "Marcelinho Carioca",
+            "Rivelino",
+            "Jadson"
+        ],
+        "correctAnswer": "Marcelinho Carioca"
+    },
+    {
+        "question": "Quantas vezes o Corinthians venceu a Copa Libertadores da América?",
+        "options": [
+            "1 vez (2012)",
+            "2 vezes (2000 e 2012)",
+            "3 vezes (1998, 2000 e 2012)",
+            "Nenhuma"
+        ],
+        "correctAnswer": "1 vez (2012)"
+    },
+    {
+        "question": "Contra qual clube europeu o Corinthians venceu a final do Mundial de Clubes da FIFA de 2012?",
+        "options": [
+            "Vasco da Gama",
+            "Chelsea",
+            "Real Madrid",
+            "Barcelona"
+        ],
+        "correctAnswer": "Chelsea"
+    },
+    {
+        "question": "Quem marcou o gol do título mundial do Corinthians na final de 2012 em Yokohama?",
+        "options": [
+            "Paulinho",
+            "Emerson Sheik",
+            "Guerrero",
+            "Danilo"
+        ],
+        "correctAnswer": "Guerrero"
+    },
+    {
+        "question": "Quem era o goleiro titular e um dos grandes destaques do título da Libertadores e do Mundial de 2012?",
+        "options": [
+            "Dida",
+            "Cássio",
+            "Julio Cesar",
+            "Ronaldo Giovanelli"
+        ],
+        "correctAnswer": "Cássio"
+    },
+    {
+        "question": "Qual importante movimento liderado por Sócrates, Wladimir e Casagrande ocorreu na década de 1980?",
+        "options": [
+            "Revolução Alvinegra",
+            "Democracia Corinthiana",
+            "Movimento do Povo",
+            "Diretas Já do Timão"
+        ],
+        "correctAnswer": "Democracia Corinthiana"
+    },
+    {
+        "question": "Em qual ano o Corinthians encerrou o jejum de quase 23 anos sem títulos ao vencer o Campeonato Paulista?",
+        "options": [
+            "1970",
+            "1977",
+            "1982",
+            "1990"
+        ],
+        "correctAnswer": "1977"
+    },
+    {
+        "question": "Quem marcou o histórico gol de voleio na final do Paulistão de 1977 contra a Ponte Preta?",
+        "options": [
+            "Geraldão",
+            "Basílio",
+            "Vaguinho",
+            "Wladimir"
+        ],
+        "correctAnswer": "Basílio"
+    },
+    {
+        "question": "Qual ídolo vestia a camisa 10 e comandou o Corinthians na conquista do seu primeiro Campeonato Brasileiro em 1990?",
+        "options": [
+            "Neto",
+            "Tupãzinho",
+            "Viola",
+            "Dinei"
+        ],
+        "correctAnswer": "Neto"
+    },
+    {
+        "question": "Quem foi o técnico da equipe na conquista da Libertadores e do Mundial em 2012?",
+        "options": [
+            "Vanderlei Luxemburgo",
+            "Tite",
+            "Mano Menezes",
+            "Oswaldo de Oliveira"
+        ],
+        "correctAnswer": "Tite"
+    },
+    {
+        "question": "Qual lendário atacante, campeão do mundo pela Seleção Brasileira em 2002, atuou pelo Corinthians entre 2009 e 2011?",
+        "options": [
+            "Rivaldo",
+            "Ronaldo Fenômeno",
+            "Romário",
+            "Ronaldinho Gaúcho"
+        ],
+        "correctAnswer": "Ronaldo Fenômeno"
+    },
+    {
+        "question": "Em qual estádio o Corinthians conquistou o título da Copa Libertadores de 2012 derrotando o Boca Juniors?",
+        "options": [
+            "Arena Corinthians",
+            "Pacaembu",
+            "Morumbi",
+            "Maracanã"
+        ],
+        "correctAnswer": "Pacaembu"
+    },
+    {
+        "question": "Qual é o jogador que mais vezes vestiu a camisa do Corinthians na história?",
+        "options": [
+            "Cássio",
+            "Wladimir",
+            "Ronaldo Giovanelli",
+            "Zé Maria"
+        ],
+        "correctAnswer": "Wladimir"
+    },
+    {
+        "question": "Na final do Mundial de Clubes da FIFA de 2000 no Maracanã, qual time foi derrotado pelo Corinthians nos pênaltis?",
+        "options": [
+            "Real Madrid",
+            "Vasco da Gama",
+            "Al-Nassr",
+            "Raja Casablanca"
+        ],
+        "correctAnswer": "Vasco da Gama"
+    },
+    {
+        "question": "Qual era o apelido do atacante Luiz Antônio da Silva, que fez grande sucesso no clube nos anos 90?",
+        "options": [
+            "Luizão",
+            "Viola",
+            "Luizinho 'Pequeno Polegar'",
+            "Dinei"
+        ],
+        "correctAnswer": "Luizão"
+    },
+    {
+        "question": "Em que ano foi inaugurada a Neo Química Arena (Arena Corinthians)?",
+        "options": [
+            "2012",
+            "2014",
+            "2015",
+            "2016"
+        ],
+        "correctAnswer": "2014"
+    },
+    {
+        "question": "O Corinthians conquistou o Campeonato Brasileiro pela primeira vez em qual ano?",
+        "options": [
+            "1977",
+            "1990",
+            "1998",
+            "1999"
+        ],
+        "correctAnswer": "1990"
+    },
+    {
+        "question": "Qual jogador marcou dois gols no segundo jogo da final da Libertadores de 2012 contra o Boca Juniors?",
+        "options": [
+            "Danilo",
+            "Emerson Sheik",
+            "Jorge Henrique",
+            "Paulinho"
+        ],
+        "correctAnswer": "Emerson Sheik"
+    },
+    {
+        "question": "Quem era o treinador do Corinthians na conquista do primeiro Mundial de Clubes da FIFA em 2000?",
+        "options": [
+            "Oswaldo de Oliveira",
+            "Vanderlei Luxemburgo",
+            "Carlos Alberto Parreira",
+            "Evaristo de Macedo"
+        ],
+        "correctAnswer": "Oswaldo de Oliveira"
+    },
+    {
+        "question": "Qual grande ídolo do clube ficou conhecido pelo apelido de 'Doutor' devido à sua formação em Medicina?",
+        "options": [
+            "Rivelino",
+            "Sócrates",
+            "Wladimir",
+            "Casagrande"
+        ],
+        "correctAnswer": "Sócrates"
+    },
+    {
+        "question": "Contra qual clube rival o Corinthians disputou o famoso 'Jogo do Século' na semifinal do Paulistão de 1954 (ano do IV Centenário)?",
+        "options": [
+            "Santos",
+            "São Paulo",
+            "Palmeiras",
+            "Ponte Preta"
+        ],
+        "correctAnswer": "Palmeiras"
+    },
+    {
+        "question": "Qual jogador argentino desembarcou no Corinthians em 2005 e se tornou o capitão do título do Brasileirão daquele ano?",
+        "options": [
+            "Javier Mascherano",
+            "Carlos Tevez",
+            "Sebastian Domínguez",
+            "Herrera"
+        ],
+        "correctAnswer": "Carlos Tevez"
+    },
+    {
+        "question": "O Corinthians detém o recorde de títulos do Campeonato Paulista. Quantas vezes o Timão foi campeão estadual?",
+        "options": [
+            "27",
+            "29",
+            "30",
+            "32"
+        ],
+        "correctAnswer": "30"
+    },
+    {
+        "question": "Quem marcou o gol da vitória do Corinthians sobre o Vasco nas quartas de final da Libertadores de 2012 após a histórica defesa de Cássio na jogada de Diego Souza?",
+        "options": [
+            "Paulinho",
+            "Ralf",
+            "Danilo",
+            "Chicão"
+        ],
+        "correctAnswer": "Paulinho"
+    },
+    {
+        "question": "Em que ano o Corinthians conquistou sua primeira Copa do Brasil, vencendo o Grêmio na final?",
+        "options": [
+            "1995",
+            "2002",
+            "2009",
+            "1991"
+        ],
+        "correctAnswer": "1995"
+    },
+    {
+        "question": "Qual destes jogadores celebrou o gol do título paulista de 1990 contra o São Paulo ao marcar vindo do banco de reservas?",
+        "options": [
+            "Tupãzinho",
+            "Neto",
+            "Fabinho",
+            "Mauro"
+        ],
+        "correctAnswer": "Tupãzinho"
+    },
+    {
+        "question": "Qual drible antológico ficou eternizado por Rivelino na década de 1970 atuando pelo Corinthians?",
+        "options": [
+            "Caneta",
+            "Pedalada",
+            "Elástico",
+            "Chapéu"
+        ],
+        "correctAnswer": "Elástico"
+    },
+    {
+        "question": "Quem foi o artilheiro do Corinthians na Copa Libertadores da América de 2012 com 5 gols marcados?",
+        "options": [
+            "Emerson Sheik",
+            "Danilo",
+            "Paulinho",
+            "Luiz Antônio"
+        ],
+        "correctAnswer": "Emerson Sheik"
+    },
+    {
+        "question": "Na conquista da Copa do Brasil de 2009, o Corinthians venceu qual equipe na grande final?",
+        "options": [
+            "Internacional",
+            "Brasil de Pelotas",
+            "Coritiba",
+            "Vasco"
+        ],
+        "correctAnswer": "Internacional"
+    },
+    {
+        "question": "Como é chamada a famosa torcida organizada fundada em 1969 por estudantes corinthianos?",
+        "options": [
+            "Gaviões da Fiel",
+            "Camisa 12",
+            "Pavilhão 9",
+            "Estopim da Fiel"
+        ],
+        "correctAnswer": "Gaviões da Fiel"
+    },
+    {
+        "question": "Qual meio-campista do Corinthians foi eleito o melhor jogador do Campeonato Brasileiro nos títulos de 2015 e peça fundamental no de 2017?",
+        "options": [
+            "Jadson",
+            "Renato Augusto",
+            "Roderick",
+            "Elias"
+        ],
+        "correctAnswer": "Renato Augusto"
+    },
+    {
+        "question": "Qual lendário goleiro cobrador de pênaltis e defensor atuou no Corinthians no título mundial de 2000?",
+        "options": [
+            "Dida",
+            "Maurício",
+            "Ronaldo Giovanelli",
+            "Julio Cesar"
+        ],
+        "correctAnswer": "Dida"
+    },
+    {
+        "question": "Qual atacante revelado pelo clube foi artilheiro e campeão do Brasileirão de 2017 pelo Corinthians?",
+        "options": [
+            "Jô",
+            "Ángel Romero",
+            "Malcom",
+            "Pedrinho"
+        ],
+        "correctAnswer": "Jô"
+    },
+    {
+        "question": "Em 1910, onde ocorreu a reunião de fundação do Corinthians sob a luz de um lampião?",
+        "options": [
+            "Bairro do Brás",
+            "Bairro do Bom Retiro",
+            "Bairro da Mooca",
+            "Bairro de Itaquera"
+        ],
+        "correctAnswer": "Bairro do Bom Retiro"
+    },
+    {
+        "question": "Quem era o presidente do clube durante as conquistas da Libertadores e do Mundial em 2012?",
+        "options": [
+            "Andrés Sanchez",
+            "Mário Gobbi",
+            "Duilio Monteiro Alves",
+            "Alberto Dualib"
+        ],
+        "correctAnswer": "Mário Gobbi"
+    },
+    {
+        "question": "Qual histórico lateral-direito fez o cruzamento para o gol de Basílio na final do Paulistão de 1977?",
+        "options": [
+            "Zé Maria",
+            "Wladimir",
+            "Edinho",
+            "Giba"
+        ],
+        "correctAnswer": "Zé Maria"
+    },
+    {
+        "question": "Em 2000, o jogo de estreia do Corinthians no Mundial de Clubes da FIFA foi contra qual equipe?",
+        "options": [
+            "Raja Casablanca",
+            "Al-Nassr",
+            "Real Madrid",
+            "South Melbourne"
+        ],
+        "correctAnswer": "Raja Casablanca"
+    }
+]
