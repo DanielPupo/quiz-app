@@ -1,29 +1,29 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
-    Dimensions,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View
+  Dimensions,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { THEME_COLORS } from '../constants/theme';
 
 const { width, height } = Dimensions.get('window');
-
-// Cores Oficiais do Corinthians
-const COLORS = {
-  primary: '#000000',      // Preto
-  secondary: '#FFFFFF',    // Branco
-  accent: '#E60112',       // Vermelho Corinthians
-  dark: '#0a0a0a',
-  lightGray: '#f5f5f5',
-};
 
 type ResultScreenProps = {
   score: number;
   totalQuestions: number;
   onPlayAgain: () => void;
+};
+
+const getColorByPercentage = (score: number, total: number): string => {
+  const percentage = (score / total) * 100;
+  if (percentage >= 80) return THEME_COLORS.success;
+  if (percentage >= 50) return THEME_COLORS.accent;
+  return THEME_COLORS.error;
 };
 
 export default function ResultScreen({
@@ -32,260 +32,384 @@ export default function ResultScreen({
   onPlayAgain,
 }: ResultScreenProps) {
   const insets = useSafeAreaInsets();
-
   const percentage = Math.round((score / totalQuestions) * 100);
-  const getMessage = () => {
-    if (percentage === 100) return '🏆 CAMPEÃO! Você é um torcedor LENDÁRIO!';
-    if (percentage >= 80) return '⭐ Excelente! Você conhece bem o Timão!';
-    if (percentage >= 60) return '👏 Bom! Continue estudando a história!';
-    if (percentage >= 40) return '💪 Pode melhorar! Estude mais sobre Corinthians!';
-    return '🤔 Que pena! Volte a tentar!';
-  };
 
-  const getEmoji = () => {
-    if (percentage === 100) return '🦅';
-    if (percentage >= 80) return '⚪';
-    if (percentage >= 60) return '🖤';
-    if (percentage >= 40) return '❤️';
-    return '😅';
+  const dynamicStyles = useMemo(() => ({
+    containerPadding: Math.max(16, Math.min(32, width * 0.05)),
+    fontSize: {
+      emoji: Math.max(64, Math.min(120, width * 0.3)),
+      title: Math.max(28, Math.min(48, width * 0.12)),
+      subtitle: Math.max(16, Math.min(24, width * 0.06)),
+      text: Math.max(14, Math.min(18, width * 0.045)),
+      stat: Math.max(12, Math.min(16, width * 0.035)),
+    },
+    circleSize: Math.max(120, Math.min(200, width * 0.4)),
+  }), []);
+
+  const getMessage = () => {
+    if (percentage === 100) return '🏆 Você é um CAMPEÃO!';
+    if (percentage >= 80) return '⭐ Excelente desempenho!';
+    if (percentage >= 60) return '👏 Muito bom!';
+    if (percentage >= 40) return '💪 Pode melhorar!';
+    return '🤔 Tente novamente!';
   };
 
   return (
-    <View
-      style={[
-        styles.container,
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={[
+        styles.content,
         {
-          paddingTop: insets.top,
-          paddingBottom: insets.bottom,
+          paddingTop: Math.max(insets.top + 16, 20),
+          paddingHorizontal: dynamicStyles.containerPadding,
+          paddingBottom: Math.max(insets.bottom + 16, 20),
         },
       ]}
+      showsVerticalScrollIndicator={false}
     >
-      {/* Background decorativo */}
-      <View style={styles.topDecoration} />
-
-      {/* Conteúdo principal */}
-      <View style={styles.content}>
-        {/* Emoji/Icon */}
-        <Text style={styles.emoji}>{getEmoji()}</Text>
-
-        {/* Título */}
-        <Text style={styles.title}>FIM DO QUIZ!</Text>
-
-        {/* Card de resultado */}
-        <View style={[styles.resultCard, { borderColor: getColorByPercentage(score, totalQuestions) }]}>
-          {/* Círculo de percentual */}
-          <View style={[styles.percentageCircle, { borderColor: getColorByPercentage(score, totalQuestions) }]}>
-            <Text style={[styles.percentageText, { color: getColorByPercentage(score, totalQuestions) }]}>
-              {percentage}%
-            </Text>
-          </View>
-
-          {/* Pontuação */}
-          <View style={styles.scoreContainer}>
-            <Text style={styles.scoreLabel}>Você acertou</Text>
-            <Text style={styles.scoreValue}>
-              {score} de {totalQuestions}
-            </Text>
-            <Text style={styles.scoreSubtext}>perguntas</Text>
-          </View>
-        </View>
-
-        {/* Mensagem personalizada */}
-        <View style={styles.messageBox}>
-          <Text style={styles.messageText}>{getMessage()}</Text>
-        </View>
-
-        {/* Detalhes de desempenho */}
-        <View style={styles.statsBox}>
-          <View style={styles.statItem}>
-            <MaterialCommunityIcons name="check-circle" size={24} color={COLORS.accent} />
-            <View>
-              <Text style={styles.statLabel}>Acertos</Text>
-              <Text style={styles.statValue}>{score}</Text>
-            </View>
-          </View>
-          <View style={styles.divider} />
-          <View style={styles.statItem}>
-            <MaterialCommunityIcons name="close-circle" size={24} color="#8E8E93" />
-            <View>
-              <Text style={styles.statLabel}>Erros</Text>
-              <Text style={styles.statValue}>{totalQuestions - score}</Text>
-            </View>
-          </View>
-        </View>
-
-        {/* Botão de jogar novamente */}
-        <TouchableOpacity
-          style={styles.playAgainButton}
-          onPress={onPlayAgain}
-          activeOpacity={0.8}
+      {/* Título */}
+      <View style={[styles.header, { marginBottom: dynamicStyles.containerPadding * 2 }]}>
+        <MaterialCommunityIcons
+          name="trophy-award"
+          size={dynamicStyles.fontSize.emoji * 0.5}
+          color={THEME_COLORS.accent}
+        />
+        <Text
+          style={[
+            styles.titleMain,
+            { fontSize: dynamicStyles.fontSize.title, marginTop: 12 },
+          ]}
         >
-          <MaterialCommunityIcons name="reload" size={22} color={COLORS.primary} />
-          <Text style={styles.playAgainText}>JOGAR NOVAMENTE</Text>
-        </TouchableOpacity>
+          RESULTADO FINAL
+        </Text>
+      </View>
 
-        {/* Footer */}
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>Vem Pro Manto! 🖤❤️</Text>
+      {/* Círculo de Percentual */}
+      <View style={[styles.resultCard, { marginBottom: dynamicStyles.containerPadding * 2 }]}>
+        <View
+          style={[
+            styles.percentageCircle,
+            {
+              width: dynamicStyles.circleSize,
+              height: dynamicStyles.circleSize,
+              borderRadius: dynamicStyles.circleSize / 2,
+              borderWidth: Math.max(6, width * 0.03),
+              borderColor: getColorByPercentage(score, totalQuestions),
+            },
+          ]}
+        >
+          <Text
+            style={[
+              styles.percentageText,
+              {
+                fontSize: dynamicStyles.fontSize.title * 1.2,
+                color: getColorByPercentage(score, totalQuestions),
+              },
+            ]}
+          >
+            {percentage}%
+          </Text>
+        </View>
+
+        {/* Pontuação */}
+        <View style={[styles.scoreContainer, { marginTop: dynamicStyles.containerPadding }]}>
+          <Text style={[styles.scoreLabel, { fontSize: dynamicStyles.fontSize.text }]}>
+            Você acertou
+          </Text>
+          <Text
+            style={[
+              styles.scoreValue,
+              {
+                fontSize: dynamicStyles.fontSize.title,
+                color: getColorByPercentage(score, totalQuestions),
+              },
+            ]}
+          >
+            {score} de {totalQuestions}
+          </Text>
         </View>
       </View>
-    </View>
+
+      {/* Mensagem Personalizada */}
+      <View
+        style={[
+          styles.messageBox,
+          {
+            marginBottom: dynamicStyles.containerPadding * 2,
+            backgroundColor:
+              percentage >= 80
+                ? 'rgba(16, 185, 129, 0.1)'
+                : percentage >= 50
+                  ? THEME_COLORS.goldGlow
+                  : 'rgba(239, 68, 68, 0.1)',
+            borderColor:
+              percentage >= 80
+                ? THEME_COLORS.success
+                : percentage >= 50
+                  ? THEME_COLORS.accent
+                  : THEME_COLORS.error,
+          },
+        ]}
+      >
+        <Text
+          style={[
+            styles.messageText,
+            {
+              fontSize: dynamicStyles.fontSize.subtitle,
+              color:
+                percentage >= 80
+                  ? THEME_COLORS.success
+                  : percentage >= 50
+                    ? THEME_COLORS.accent
+                    : THEME_COLORS.error,
+            },
+          ]}
+        >
+          {getMessage()}
+        </Text>
+      </View>
+
+      {/* Estatísticas Detalhadas */}
+      <View style={[styles.statsContainer, { gap: Math.max(8, width * 0.02) }]}>
+        <View
+          style={[
+            styles.statBox,
+            {
+              borderColor: THEME_COLORS.success,
+              backgroundColor: 'rgba(16, 185, 129, 0.1)',
+            },
+          ]}
+        >
+          <MaterialCommunityIcons
+            name="check-circle"
+            size={Math.max(20, width * 0.06)}
+            color={THEME_COLORS.success}
+          />
+          <Text style={[styles.statLabel, { fontSize: dynamicStyles.fontSize.stat }]}>
+            Acertos
+          </Text>
+          <Text
+            style={[
+              styles.statValue,
+              { fontSize: dynamicStyles.fontSize.subtitle, color: THEME_COLORS.success },
+            ]}
+          >
+            {score}
+          </Text>
+        </View>
+
+        <View
+          style={[
+            styles.statBox,
+            {
+              borderColor: THEME_COLORS.error,
+              backgroundColor: 'rgba(239, 68, 68, 0.1)',
+            },
+          ]}
+        >
+          <MaterialCommunityIcons
+            name="close-circle"
+            size={Math.max(20, width * 0.06)}
+            color={THEME_COLORS.error}
+          />
+          <Text style={[styles.statLabel, { fontSize: dynamicStyles.fontSize.stat }]}>
+            Erros
+          </Text>
+          <Text
+            style={[
+              styles.statValue,
+              { fontSize: dynamicStyles.fontSize.subtitle, color: THEME_COLORS.error },
+            ]}
+          >
+            {totalQuestions - score}
+          </Text>
+        </View>
+
+        <View
+          style={[
+            styles.statBox,
+            {
+              borderColor: THEME_COLORS.accent,
+              backgroundColor: THEME_COLORS.goldGlow,
+            },
+          ]}
+        >
+          <MaterialCommunityIcons
+            name="percent"
+            size={Math.max(20, width * 0.06)}
+            color={THEME_COLORS.accent}
+          />
+          <Text style={[styles.statLabel, { fontSize: dynamicStyles.fontSize.stat }]}>
+            Taxa
+          </Text>
+          <Text
+            style={[
+              styles.statValue,
+              { fontSize: dynamicStyles.fontSize.subtitle, color: THEME_COLORS.accent },
+            ]}
+          >
+            {percentage}%
+          </Text>
+        </View>
+      </View>
+
+      {/* Botões */}
+      <View style={[styles.buttonContainer, { marginTop: dynamicStyles.containerPadding * 2 }]}>
+        <TouchableOpacity
+          style={[
+            styles.playAgainButton,
+            { paddingVertical: Math.max(12, height * 0.02) },
+          ]}
+          onPress={onPlayAgain}
+          activeOpacity={0.75}
+        >
+          <MaterialCommunityIcons
+            name="refresh-circle"
+            size={Math.max(18, width * 0.05)}
+            color={THEME_COLORS.primary}
+          />
+          <Text
+            style={[
+              styles.buttonText,
+              { fontSize: Math.max(14, width * 0.045) },
+            ]}
+          >
+            JOGAR NOVAMENTE
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Footer */}
+      <View
+        style={[
+          styles.footer,
+          { marginTop: dynamicStyles.containerPadding * 1.5 },
+        ]}
+      >
+        <Text style={[styles.footerText, { fontSize: dynamicStyles.fontSize.stat }]}>
+          ⚫ ⚪ 🟡 Design Premium
+        </Text>
+      </View>
+    </ScrollView>
   );
 }
-
-const getColorByPercentage = (score: number, totalQuestions: number) => {
-  const percentage = Math.round((score / totalQuestions) * 100);
-  if (percentage === 100) return COLORS.accent;
-  if (percentage >= 80) return '#10B981';
-  if (percentage >= 60) return '#F59E0B';
-  if (percentage >= 40) return '#EF4444';
-  return '#8E8E93';
-};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.primary,
-  },
-  topDecoration: {
-    height: 120,
-    backgroundColor: COLORS.dark,
-    borderBottomLeftRadius: 30,
-    borderBottomRightRadius: 30,
-    marginBottom: 20,
+    backgroundColor: THEME_COLORS.primary,
   },
   content: {
-    flex: 1,
-    paddingHorizontal: 20,
-    alignItems: 'center',
+    flexGrow: 1,
     justifyContent: 'space-between',
-    paddingBottom: 30,
   },
-  emoji: {
-    fontSize: 80,
-    marginBottom: 20,
+  header: {
+    alignItems: 'center',
   },
-  title: {
-    fontSize: 32,
+  titleMain: {
     fontWeight: '900',
-    color: COLORS.secondary,
+    color: THEME_COLORS.secondary,
     letterSpacing: 2,
-    marginBottom: 20,
+    textAlign: 'center',
   },
   resultCard: {
-    backgroundColor: COLORS.dark,
-    borderRadius: 20,
-    padding: 30,
-    width: '100%',
-    alignItems: 'center',
+    backgroundColor: THEME_COLORS.darkGray,
+    borderRadius: 12,
+    padding: 24,
     borderWidth: 2,
-    borderColor: COLORS.accent,
-    marginBottom: 20,
+    borderColor: THEME_COLORS.accent,
+    alignItems: 'center',
+    shadowColor: THEME_COLORS.accent,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.25,
+    shadowRadius: 12,
+    elevation: 6,
   },
   percentageCircle: {
-    width: 140,
-    height: 140,
-    borderRadius: 70,
-    borderWidth: 6,
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 20,
   },
   percentageText: {
-    fontSize: 48,
     fontWeight: '900',
+    letterSpacing: 1,
   },
   scoreContainer: {
     alignItems: 'center',
   },
   scoreLabel: {
-    fontSize: 14,
-    color: '#8E8E93',
+    color: THEME_COLORS.textSecondary,
     fontWeight: '600',
     marginBottom: 4,
   },
   scoreValue: {
-    fontSize: 28,
     fontWeight: '900',
-    color: COLORS.secondary,
-    marginBottom: 2,
-  },
-  scoreSubtext: {
-    fontSize: 12,
-    color: '#8E8E93',
-    fontWeight: '500',
   },
   messageBox: {
-    backgroundColor: 'rgba(230, 1, 18, 0.15)',
-    borderRadius: 12,
-    paddingVertical: 16,
-    paddingHorizontal: 20,
-    marginBottom: 20,
-    borderLeftWidth: 4,
-    borderLeftColor: COLORS.accent,
-    width: '100%',
-  },
-  messageText: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: COLORS.secondary,
-    textAlign: 'center',
-    lineHeight: 22,
-  },
-  statsBox: {
-    backgroundColor: COLORS.dark,
     borderRadius: 12,
     padding: 16,
-    width: '100%',
+    borderWidth: 2,
+    alignItems: 'center',
+  },
+  messageText: {
+    fontWeight: '700',
+    textAlign: 'center',
+    lineHeight: 24,
+  },
+  statsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#333333',
-    marginBottom: 20,
   },
-  statItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
+  statBox: {
     flex: 1,
-  },
-  divider: {
-    width: 1,
-    height: 40,
-    backgroundColor: '#333333',
+    backgroundColor: THEME_COLORS.darkGray,
+    borderRadius: 12,
+    padding: 12,
+    alignItems: 'center',
+    borderWidth: 1.5,
+    marginHorizontal: 4,
   },
   statLabel: {
-    fontSize: 12,
-    color: '#8E8E93',
+    color: THEME_COLORS.textMuted,
     fontWeight: '600',
+    marginTop: 6,
     marginBottom: 4,
   },
   statValue: {
-    fontSize: 20,
     fontWeight: '900',
-    color: COLORS.secondary,
+  },
+  buttonContainer: {
+    gap: 12,
   },
   playAgainButton: {
-    backgroundColor: COLORS.accent,
-    borderRadius: 14,
-    paddingVertical: 16,
-    paddingHorizontal: 32,
+    backgroundColor: THEME_COLORS.accent,
+    borderRadius: 12,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: 12,
-    width: '100%',
-    shadowColor: COLORS.accent,
+    gap: 10,
+    shadowColor: THEME_COLORS.accent,
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.4,
     shadowRadius: 12,
-    elevation: 6,
+    elevation: 8,
   },
-  playAgainText: {
-    fontSize: 16,
+  buttonText: {
+    color: THEME_COLORS.primary,
     fontWeight: '900',
-    color: COLORS.primary,
+    letterSpacing: 1,
+  },
+  footer: {
+    alignItems: 'center',
+    paddingTop: 12,
+    borderTopWidth: 1,
+    borderTopColor: THEME_COLORS.gray,
+  },
+  footerText: {
+    fontWeight: '700',
+    color: THEME_COLORS.textMuted,
+  },
+});
     letterSpacing: 1.5,
   },
   footer: {

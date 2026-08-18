@@ -1,31 +1,51 @@
 /**
- * Configuração de Cores Oficiais do Sport Club Corinthians Paulista
- * Paleta de cores seguindo o branding oficial do clube
+ * Tema Premium: Preto, Branco e Dourado
+ * Paleta elegante e responsiva para todos os dispositivos
  */
 
-export const CORINTHIANS_COLORS = {
-  // Cores primárias oficiais
-  primary: '#000000',        // Preto (cor principal)
-  secondary: '#FFFFFF',      // Branco (cor secundária)
-  accent: '#E60112',         // Vermelho oficial (cor de destaque)
+import { Dimensions } from 'react-native';
+
+const { width, height } = Dimensions.get('window');
+
+// Função para escalar valores responsivos
+export const scaleSize = (baseSize: number) => {
+  const screenWidth = width;
+  const screenHeight = height;
+  const avgDimension = (screenWidth + screenHeight) / 2;
+  const avgBaseSize = 400; // Dimensão base de referência
+  return (baseSize * avgDimension) / avgBaseSize;
+};
+
+export const THEME_COLORS = {
+  // Cores primárias
+  primary: '#000000',        // Preto sólido
+  secondary: '#FFFFFF',      // Branco puro
+  accent: '#D4AF37',         // Dourado elegante
   
-  // Cores de fundo
-  dark: '#0a0a0a',           // Preto mais escuro para backgrounds
-  cardBg: '#1a1a1a',         // Background de cards
+  // Variações de preto
+  dark: '#0a0a0a',           // Preto super escuro
+  darkGray: '#1a1a1a',       // Preto escuro
+  gray: '#2d2d2d',           // Cinza escuro
+  
+  // Variações de dourado
+  goldLight: '#E5C158',       // Dourado claro
+  goldDark: '#B8860B',        // Dourado escuro
+  goldGlow: 'rgba(212, 175, 55, 0.15)',  // Brilho dourado
   
   // Cores de feedback
-  success: '#10B981',        // Verde para respostas corretas
-  error: '#EF4444',          // Vermelho para respostas erradas
-  warning: '#F59E0B',        // Amarelo para avisos
+  success: '#10B981',        // Verde para correto
+  error: '#EF4444',          // Vermelho para errado
+  warning: '#F59E0B',        // Amarelo para aviso
   
   // Cores de texto
   textPrimary: '#FFFFFF',    // Texto principal
-  textSecondary: '#d0d0d0',  // Texto secundário
-  textMuted: '#8E8E93',      // Texto desativado/mutedo
+  textSecondary: '#D4AF37',  // Texto secundário (dourado)
+  textMuted: '#8E8E93',      // Texto desativado
   
   // Cores de border
   borderDefault: '#333333',  // Borda padrão
-  borderAccent: '#E60112',   // Borda de destaque
+  borderAccent: '#D4AF37',   // Borda dourada
+  borderLight: '#666666',    // Borda clara
 };
 
 /**
@@ -54,7 +74,7 @@ export const SHADOWS = {
     elevation: 6,
   },
   accent: {
-    shadowColor: '#E60112',
+    shadowColor: '#D4AF37',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,

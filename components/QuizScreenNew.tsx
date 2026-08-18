@@ -1,34 +1,19 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
     Dimensions,
     StatusBar,
     StyleSheet,
     Text,
     TouchableOpacity,
-    View
+    View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { THEME_COLORS } from '../constants/theme';
 
 import questions from '../questions.json';
 
-const { width } = Dimensions.get('window');
-
-// Cores Oficiais do Corinthians
-const PALETTE = {
-  primary: '#000000',      // Preto
-  secondary: '#FFFFFF',    // Branco
-  accent: '#E60112',       // Vermelho Corinthians
-  dark: '#0a0a0a',
-  cardBg: '#1a1a1a',
-  cardBorder: '#333333',
-  textPrimary: '#FFFFFF',
-  textMuted: '#8E8E93',
-  correct: '#10B981',
-  correctBg: 'rgba(16, 185, 129, 0.12)',
-  wrong: '#EF4444',
-  wrongBg: 'rgba(239, 68, 68, 0.12)',
-};
+const { width, height } = Dimensions.get('window');
 
 const OPTION_LABELS = ['A', 'B', 'C', 'D'];
 
@@ -55,6 +40,17 @@ export default function QuizScreen({
   const currentQuestion = questions[currentQuestionIndex];
   const progressPercent = ((currentQuestionIndex + 1) / totalQuestions) * 100;
 
+  const dynamicStyles = useMemo(() => ({
+    containerPadding: Math.max(12, Math.min(24, width * 0.05)),
+    fontSize: {
+      title: Math.max(18, Math.min(28, width * 0.06)),
+      question: Math.max(16, Math.min(24, width * 0.05)),
+      option: Math.max(14, Math.min(20, width * 0.04)),
+      badge: Math.max(10, Math.min(14, width * 0.035)),
+    },
+    optionHeight: Math.max(50, Math.min(80, height * 0.1)),
+  }), [width, height]);
+
   const handleSelectOption = (option: string) => {
     if (!isAnswered) {
       onOptionPress(option);
@@ -66,61 +62,76 @@ export default function QuizScreen({
       style={[
         styles.container,
         {
-          paddingTop: Math.max(insets.top, 16),
-          paddingBottom: Math.max(insets.bottom, 16),
+          paddingTop: Math.max(insets.top + 12, 12),
+          paddingBottom: Math.max(insets.bottom + 12, 12),
+          paddingHorizontal: dynamicStyles.containerPadding,
         },
       ]}
     >
-      <StatusBar barStyle="light-content" backgroundColor={PALETTE.primary} translucent />
+      <StatusBar barStyle="light-content" backgroundColor={THEME_COLORS.primary} translucent />
 
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.brandBadge}>
-          <MaterialCommunityIcons name="shield-crown" size={16} color={PALETTE.accent} />
-          <Text style={styles.brandText}>SCCP</Text>
+          <MaterialCommunityIcons
+            name="trophy-award"
+            size={Math.max(14, width * 0.035)}
+            color={THEME_COLORS.accent}
+          />
+          <Text style={[styles.brandText, { fontSize: dynamicStyles.fontSize.badge }]}>
+            QUIZ
+          </Text>
         </View>
 
         <View style={styles.scoreCounter}>
-          <MaterialCommunityIcons name="trophy-outline" size={18} color={PALETTE.accent} />
-          <Text style={styles.scoreText}>{score}/{totalQuestions}</Text>
+          <MaterialCommunityIcons
+            name="star-circle"
+            size={Math.max(16, width * 0.04)}
+            color={THEME_COLORS.accent}
+          />
+          <Text style={[styles.scoreText, { fontSize: dynamicStyles.fontSize.badge }]}>
+            {score}/{totalQuestions}
+          </Text>
         </View>
       </View>
 
       {/* Progress Bar */}
-      <View style={styles.progressTrack}>
+      <View style={[styles.progressTrack, { height: Math.max(4, width * 0.015) }]}>
         <View style={[styles.progressFill, { width: `${progressPercent}%` }]} />
       </View>
 
-      <View style={styles.stepInfo}>
-        <Text style={styles.stepText}>
+      <View style={[styles.stepInfo, { marginBottom: Math.max(8, width * 0.03) }]}>
+        <Text style={[styles.stepText, { fontSize: dynamicStyles.fontSize.badge }]}>
           PERGUNTA {currentQuestionIndex + 1} DE {totalQuestions}
         </Text>
       </View>
 
       {/* Question Card */}
-      <View style={styles.questionCard}>
-        <Text style={styles.questionText}>{currentQuestion.question}</Text>
+      <View style={[styles.questionCard, { marginBottom: Math.max(16, width * 0.04) }]}>
+        <Text style={[styles.questionText, { fontSize: dynamicStyles.fontSize.question }]}>
+          {currentQuestion.question}
+        </Text>
       </View>
 
       {/* Options */}
-      <View style={styles.optionsList}>
+      <View style={[styles.optionsList, { gap: Math.max(8, width * 0.02) }]}>
         {(currentQuestion.options ?? []).map((option: string, index: number) => {
           const isCorrect = option === currentQuestion.correctAnswer;
           const isSelected = option === selectedOption;
 
           let btnStyle = styles.optionBtn;
           let badgeStyle = styles.optionBadge;
-          let textColor = PALETTE.textPrimary;
+          let textColor = THEME_COLORS.textPrimary;
 
           if (isAnswered) {
             if (isCorrect) {
               btnStyle = [styles.optionBtn, styles.correctBtn];
               badgeStyle = [styles.optionBadge, styles.correctBadge];
-              textColor = PALETTE.correct;
+              textColor = THEME_COLORS.success;
             } else if (isSelected) {
               btnStyle = [styles.optionBtn, styles.wrongBtn];
               badgeStyle = [styles.optionBadge, styles.wrongBadge];
-              textColor = PALETTE.wrong;
+              textColor = THEME_COLORS.error;
             } else {
               btnStyle = [styles.optionBtn, styles.dimmedBtn];
             }
@@ -130,33 +141,56 @@ export default function QuizScreen({
             <TouchableOpacity
               key={option}
               activeOpacity={0.7}
-              style={btnStyle}
+              style={[btnStyle, { minHeight: dynamicStyles.optionHeight * 0.6 }]}
               onPress={() => handleSelectOption(option)}
               disabled={isAnswered}
             >
               <View style={styles.optionContent}>
-                <View style={badgeStyle}>
+                <View
+                  style={[
+                    badgeStyle,
+                    {
+                      width: Math.max(28, width * 0.08),
+                      height: Math.max(28, width * 0.08),
+                      borderRadius: Math.max(7, width * 0.02),
+                    },
+                  ]}
+                >
                   <Text
                     style={[
                       styles.badgeText,
-                      isAnswered && isCorrect && { color: PALETTE.primary },
+                      {
+                        fontSize: dynamicStyles.fontSize.option - 2,
+                        color: isAnswered && isCorrect ? THEME_COLORS.primary : THEME_COLORS.textMuted,
+                      },
                     ]}
                   >
                     {OPTION_LABELS[index] || '•'}
                   </Text>
                 </View>
-                <Text style={[styles.optionText, { color: textColor }]}>{option}</Text>
+                <Text
+                  style={[
+                    styles.optionText,
+                    { fontSize: dynamicStyles.fontSize.option, color: textColor },
+                  ]}
+                >
+                  {option}
+                </Text>
               </View>
 
               {isAnswered && isCorrect && (
                 <MaterialCommunityIcons
                   name="check-circle"
-                  size={22}
-                  color={PALETTE.correct}
+                  size={Math.max(18, width * 0.05)}
+                  color={THEME_COLORS.success}
                 />
               )}
               {isAnswered && isSelected && !isCorrect && (
-                <MaterialCommunityIcons name="close-circle" size={22} color={PALETTE.wrong} />
+                <MaterialCommunityIcons
+                  name="close-circle"
+                  size={Math.max(18, width * 0.05)}
+                  color={THEME_COLORS.error}
+                />
               )}
             </TouchableOpacity>
           );
@@ -164,26 +198,45 @@ export default function QuizScreen({
       </View>
 
       {/* Footer */}
-      <View style={styles.footer}>
+      <View style={[styles.footer, { marginTop: Math.max(12, width * 0.03) }]}>
         {isAnswered ? (
           <TouchableOpacity
-            style={styles.actionBtn}
+            style={[
+              styles.actionBtn,
+              { paddingVertical: Math.max(12, height * 0.02) },
+            ]}
             onPress={onNextQuestion}
-            activeOpacity={0.8}
+            activeOpacity={0.75}
           >
-            <Text style={styles.actionBtnText}>
-              {currentQuestionIndex === totalQuestions - 1 ? 'VER RESULTADO' : 'PRÓXIMA'}
+            <Text
+              style={[
+                styles.actionBtnText,
+                { fontSize: Math.max(13, width * 0.04) },
+              ]}
+            >
+              {currentQuestionIndex === totalQuestions - 1 ? 'RESULTADO' : 'PRÓXIMA'}
             </Text>
-            <MaterialCommunityIcons name="chevron-right" size={22} color={PALETTE.primary} />
+            <MaterialCommunityIcons
+              name="chevron-right"
+              size={Math.max(18, width * 0.05)}
+              color={THEME_COLORS.primary}
+            />
           </TouchableOpacity>
         ) : (
           <View style={styles.hintContainer}>
             <MaterialCommunityIcons
               name="gesture-tap"
-              size={18}
-              color={PALETTE.textMuted}
+              size={Math.max(16, width * 0.04)}
+              color={THEME_COLORS.textMuted}
             />
-            <Text style={styles.hintText}>Selecione uma alternativa</Text>
+            <Text
+              style={[
+                styles.hintText,
+                { fontSize: dynamicStyles.fontSize.badge },
+              ]}
+            >
+              Selecione uma alternativa
+            </Text>
           </View>
         )}
       </View>
@@ -194,52 +247,48 @@ export default function QuizScreen({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: PALETTE.primary,
-    paddingHorizontal: 20,
+    backgroundColor: THEME_COLORS.primary,
     justifyContent: 'space-between',
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: 10,
   },
   brandBadge: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    backgroundColor: PALETTE.cardBg,
+    backgroundColor: THEME_COLORS.darkGray,
     paddingHorizontal: 12,
     paddingVertical: 6,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: PALETTE.accent,
+    borderRadius: 16,
+    borderWidth: 1.5,
+    borderColor: THEME_COLORS.accent,
   },
   brandText: {
-    color: PALETTE.textPrimary,
+    color: THEME_COLORS.textPrimary,
     fontWeight: '900',
-    fontSize: 12,
-    letterSpacing: 2,
+    letterSpacing: 1.5,
   },
   scoreCounter: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    backgroundColor: 'rgba(230, 1, 18, 0.15)',
-    paddingHorizontal: 14,
+    backgroundColor: THEME_COLORS.goldGlow,
+    paddingHorizontal: 12,
     paddingVertical: 6,
-    borderRadius: 20,
+    borderRadius: 16,
     borderWidth: 1.5,
-    borderColor: PALETTE.accent,
+    borderColor: THEME_COLORS.accent,
   },
   scoreText: {
-    color: PALETTE.accent,
+    color: THEME_COLORS.accent,
     fontWeight: '800',
-    fontSize: 13,
   },
   progressTrack: {
-    height: 5,
-    backgroundColor: PALETTE.cardBorder,
+    backgroundColor: THEME_COLORS.gray,
     borderRadius: 2,
     width: '100%',
     overflow: 'hidden',
@@ -247,50 +296,46 @@ const styles = StyleSheet.create({
   },
   progressFill: {
     height: '100%',
-    backgroundColor: PALETTE.accent,
+    backgroundColor: THEME_COLORS.accent,
   },
   stepInfo: {
-    marginBottom: 16,
+    marginBottom: 12,
   },
   stepText: {
-    color: PALETTE.textMuted,
-    fontSize: 11,
+    color: THEME_COLORS.textMuted,
     fontWeight: '700',
-    letterSpacing: 1.5,
+    letterSpacing: 1,
   },
   questionCard: {
-    backgroundColor: PALETTE.cardBg,
-    padding: 24,
-    borderRadius: 16,
-    borderWidth: 1.5,
-    borderColor: PALETTE.accent,
-    minHeight: 130,
+    backgroundColor: THEME_COLORS.darkGray,
+    padding: 18,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: THEME_COLORS.accent,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 20,
-    shadowColor: PALETTE.accent,
+    shadowColor: THEME_COLORS.accent,
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.25,
     shadowRadius: 8,
     elevation: 5,
   },
   questionText: {
-    color: PALETTE.textPrimary,
-    fontSize: 18,
+    color: THEME_COLORS.textPrimary,
     fontWeight: '700',
     textAlign: 'center',
-    lineHeight: 26,
+    lineHeight: 24,
   },
   optionsList: {
     flex: 1,
-    gap: 10,
+    justifyContent: 'center',
   },
   optionBtn: {
-    backgroundColor: PALETTE.cardBg,
-    padding: 14,
-    borderRadius: 12,
+    backgroundColor: THEME_COLORS.darkGray,
+    padding: 12,
+    borderRadius: 10,
     borderWidth: 1.5,
-    borderColor: PALETTE.cardBorder,
+    borderColor: THEME_COLORS.gray,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -298,67 +343,59 @@ const styles = StyleSheet.create({
   optionContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: 10,
     flex: 1,
   },
   optionBadge: {
-    width: 32,
-    height: 32,
-    borderRadius: 8,
-    backgroundColor: '#222222',
+    backgroundColor: THEME_COLORS.gray,
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 6,
   },
   badgeText: {
-    color: PALETTE.textMuted,
+    color: THEME_COLORS.textMuted,
     fontWeight: '800',
-    fontSize: 13,
   },
   optionText: {
-    fontSize: 15,
     fontWeight: '600',
     flex: 1,
   },
   correctBtn: {
-    backgroundColor: PALETTE.correctBg,
-    borderColor: PALETTE.correct,
+    backgroundColor: 'rgba(16, 185, 129, 0.12)',
+    borderColor: THEME_COLORS.success,
   },
   correctBadge: {
-    backgroundColor: PALETTE.correct,
+    backgroundColor: THEME_COLORS.success,
   },
   wrongBtn: {
-    backgroundColor: PALETTE.wrongBg,
-    borderColor: PALETTE.wrong,
+    backgroundColor: 'rgba(239, 68, 68, 0.12)',
+    borderColor: THEME_COLORS.error,
   },
   wrongBadge: {
-    backgroundColor: PALETTE.wrong,
+    backgroundColor: THEME_COLORS.error,
   },
   dimmedBtn: {
     opacity: 0.25,
   },
   footer: {
-    height: 60,
     justifyContent: 'center',
-    marginTop: 10,
   },
   actionBtn: {
-    backgroundColor: PALETTE.accent,
-    height: 52,
-    borderRadius: 12,
+    backgroundColor: THEME_COLORS.accent,
+    borderRadius: 10,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     gap: 8,
-    shadowColor: PALETTE.accent,
+    shadowColor: THEME_COLORS.accent,
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.35,
     shadowRadius: 8,
-    elevation: 4,
+    elevation: 6,
   },
   actionBtnText: {
-    color: PALETTE.primary,
+    color: THEME_COLORS.primary,
     fontWeight: '900',
-    fontSize: 14,
     letterSpacing: 1,
   },
   hintContainer: {
@@ -368,8 +405,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   hintText: {
-    color: PALETTE.textMuted,
-    fontSize: 12,
+    color: THEME_COLORS.textMuted,
     fontWeight: '500',
   },
 });
