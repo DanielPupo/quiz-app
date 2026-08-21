@@ -12,6 +12,20 @@ Aplicativo de quiz sobre o Sport Club Corinthians Paulista, desenvolvido com Rea
 - interface responsiva para celular, tablet e web;
 - acessibilidade básica e feedback tátil em dispositivos compatíveis;
 - funcionamento do fluxo principal sem depender de imagens externas.
+- jornada histórica com quatro etapas desbloqueáveis;
+- modo difícil com perguntas sorteadas;
+- três vidas, cronômetro e bônus de velocidade;
+- explicações históricas após cada resposta;
+- conquistas e ranking local persistentes;
+- cartão de resultado compartilhável.
+
+## Organização do código
+
+- `constants/game.ts`: regras, jornadas, conquistas e explicações;
+- `types/game.ts`: contratos de dados do jogo;
+- `services/progressStorage.ts`: leitura e gravação do progresso local;
+- `components/`: telas e apresentação;
+- `app/index.tsx`: fluxo e estado da partida.
 
 ## Executar
 

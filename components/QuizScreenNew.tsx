@@ -4,23 +4,25 @@ import React from 'react';
 import { Platform, ScrollView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS, RADIUS } from '../constants/theme';
-import questions from '../questions.json';
+import { getExplanation } from '../constants/game';
 
 const LETTERS = ['A', 'B', 'C', 'D'];
 type Props = {
   currentQuestionIndex: number;
+  question: { question: string; options: string[]; correctAnswer: string };
   selectedOption: string | null;
-  score: number;
+  points: number;
+  lives: number;
+  secondsLeft: number;
   totalQuestions: number;
   onOptionPress: (option: string) => void;
   onNextQuestion: () => void;
   onQuit: () => void;
 };
 
-export default function QuizScreen({ currentQuestionIndex, selectedOption, score, totalQuestions, onOptionPress, onNextQuestion, onQuit }: Props) {
+export default function QuizScreen({ currentQuestionIndex, question, selectedOption, points, lives, secondsLeft, totalQuestions, onOptionPress, onNextQuestion, onQuit }: Props) {
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
-  const question = questions[currentQuestionIndex];
   const answered = selectedOption !== null;
   const selectedIsCorrect = selectedOption === question.correctAnswer;
   const maxWidth = Math.min(width - 28, 760);
@@ -38,8 +40,8 @@ export default function QuizScreen({ currentQuestionIndex, selectedOption, score
       <View style={[styles.shell, { width: maxWidth }]}>
         <View style={styles.header}>
           <TouchableOpacity accessibilityRole="button" accessibilityLabel="Sair do quiz" onPress={onQuit} style={styles.iconButton}><MaterialCommunityIcons name="close" size={22} color={COLORS.white} /></TouchableOpacity>
-          <View style={styles.roundBadge}><Text style={styles.roundText}>{currentQuestionIndex + 1}</Text><Text style={styles.roundTotal}>/{totalQuestions}</Text></View>
-          <View style={styles.score}><MaterialCommunityIcons name="star-four-points" size={16} color={COLORS.white} /><Text style={styles.scoreText}>{score} acertos</Text></View>
+          <View style={styles.roundBadge}><MaterialCommunityIcons name="heart" size={16} color={COLORS.error} /><Text style={styles.roundText}>{lives}</Text><Text style={styles.timer}>  •  {secondsLeft}s</Text></View>
+          <View style={styles.score}><MaterialCommunityIcons name="star-four-points" size={16} color={COLORS.white} /><Text style={styles.scoreText}>{points} pts</Text></View>
         </View>
 
         <View accessibilityRole="progressbar" accessibilityValue={{ min: 0, max: totalQuestions, now: currentQuestionIndex + 1 }} style={styles.progress}><View style={[styles.progressFill, { width: `${((currentQuestionIndex + 1) / totalQuestions) * 100}%` }]} /></View>
@@ -79,7 +81,7 @@ export default function QuizScreen({ currentQuestionIndex, selectedOption, score
               <MaterialCommunityIcons name={selectedIsCorrect ? 'check-decagram' : 'information-outline'} size={24} color={selectedIsCorrect ? COLORS.success : COLORS.error} />
               <View style={styles.feedbackCopy}>
                 <Text style={[styles.feedbackTitle, { color: selectedIsCorrect ? COLORS.success : COLORS.error }]}>{selectedIsCorrect ? 'Mandou bem!' : 'Não foi dessa vez'}</Text>
-                {!selectedIsCorrect && <Text style={styles.feedbackText}>Resposta certa: {question.correctAnswer}</Text>}
+                <Text style={styles.feedbackText}>{getExplanation(question.question, question.correctAnswer)}</Text>
               </View>
             </View>
           )}
@@ -88,7 +90,7 @@ export default function QuizScreen({ currentQuestionIndex, selectedOption, score
         <View style={styles.bottom}>
           {answered ? (
             <TouchableOpacity accessibilityRole="button" onPress={onNextQuestion} activeOpacity={0.82} style={styles.nextButton}>
-              <Text style={styles.nextText}>{currentQuestionIndex === totalQuestions - 1 ? 'VER RESULTADO' : 'PRÓXIMA PERGUNTA'}</Text>
+              <Text style={styles.nextText}>{lives === 0 || currentQuestionIndex === totalQuestions - 1 ? 'VER RESULTADO' : 'PRÓXIMA PERGUNTA'}</Text>
               <MaterialCommunityIcons name="arrow-right" size={21} color={COLORS.black} />
             </TouchableOpacity>
           ) : <Text style={styles.hint}>Escolha uma alternativa para continuar</Text>}
@@ -106,6 +108,7 @@ const styles = StyleSheet.create({
   roundBadge: { flexDirection: 'row', alignItems: 'baseline' },
   roundText: { color: COLORS.white, fontSize: 20, fontWeight: '900' },
   roundTotal: { color: COLORS.muted, fontSize: 13, fontWeight: '700' },
+  timer: { color: COLORS.textSoft, fontSize: 13, fontWeight: '800' },
   score: { minWidth: 92, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', gap: 5 },
   scoreText: { color: COLORS.textSoft, fontSize: 12, fontWeight: '700' },
   progress: { height: 4, borderRadius: 2, backgroundColor: COLORS.surfaceRaised, overflow: 'hidden', marginVertical: 8 },
