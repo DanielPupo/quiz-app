@@ -1,385 +1,87 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import React, { useMemo } from 'react';
-import {
-    Dimensions,
-    Image,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-} from 'react-native';
+import React from 'react';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { THEME_COLORS } from '../constants/theme';
+import { COLORS, RADIUS, SHADOW } from '../constants/theme';
 
-const { width, height } = Dimensions.get('window');
+type Props = { totalQuestions: number; onStartQuiz: () => void };
 
-// Detectar tipo de dispositivo
-const isLargeScreen = width >= 768;
-const isLandscape = width > height;
+function ClubMark({ size }: { size: number }) {
+  return (
+    <View accessible accessibilityLabel="Emblema estilizado do Corinthians" style={[styles.mark, { width: size, height: size, borderRadius: size / 2 }]}>
+      <View style={[styles.markRing, { borderRadius: size / 2 }]}>
+        <Text style={[styles.markTop, { fontSize: size * 0.1 }]}>SPORT CLUB</Text>
+        <Text style={[styles.markLetters, { fontSize: size * 0.27 }]}>SCCP</Text>
+        <View style={styles.markLine} />
+        <Text style={[styles.markYear, { fontSize: size * 0.09 }]}>1910</Text>
+      </View>
+    </View>
+  );
+}
 
-type HomeScreenProps = {
-  onStartQuiz: () => void;
-};
-
-export default function HomeScreen({ onStartQuiz }: HomeScreenProps) {
+export default function HomeScreen({ totalQuestions, onStartQuiz }: Props) {
   const insets = useSafeAreaInsets();
-
-  // Estilos responsivos dinamicamente calculados
-  const dynamicStyles = useMemo(() => ({
-    containerPadding: Math.max(16, Math.min(32, width * 0.05)),
-    headerGap: Math.max(12, width * 0.04),
-    badgeSize: Math.max(60, Math.min(120, width * 0.25)),
-    logoSize: Math.max(120, Math.min(200, width * 0.4)),
-    fontSize: {
-      title: Math.max(24, Math.min(48, width * 0.12)),
-      subtitle: Math.max(14, Math.min(20, width * 0.05)),
-      card: Math.max(12, Math.min(18, width * 0.04)),
-      stat: Math.max(20, Math.min(32, width * 0.1)),
-    },
-  }), [width]);
+  const { width } = useWindowDimensions();
+  const wide = width >= 720;
+  const contentWidth = Math.min(width - 32, 720);
+  const logoSize = Math.min(Math.max(width * 0.42, 148), 220);
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <View
-        style={[
-          styles.content,
-          {
-            paddingTop: Math.max(insets.top + 16, 20),
-            paddingHorizontal: dynamicStyles.containerPadding,
-            paddingBottom: 40,
-          },
-        ]}
-      >
-        {/* Header */}
-        <View style={[styles.header, { marginBottom: dynamicStyles.headerGap * 2 }]}>
-          <View
-            style={[
-              styles.badge,
-              {
-                width: dynamicStyles.badgeSize,
-                height: dynamicStyles.badgeSize,
-                borderRadius: dynamicStyles.badgeSize / 2,
-              },
-            ]}
-          >
-            <MaterialCommunityIcons
-              name="trophy-award"
-              size={Math.max(32, dynamicStyles.badgeSize * 0.5)}
-              color={THEME_COLORS.accent}
-            />
-          </View>
+    <ScrollView style={styles.screen} contentContainerStyle={[styles.scrollContent, { paddingTop: insets.top + 20, paddingBottom: insets.bottom + 28 }]} showsVerticalScrollIndicator={false}>
+      <View style={[styles.content, { width: contentWidth }]}>
+        <View style={styles.eyebrow}><View style={styles.redDot} /><Text style={styles.eyebrowText}>NAÇÃO CORINTHIANA</Text></View>
+        <Text style={[styles.title, wide && styles.titleWide]}>QUIZ DO{`\n`}TIMÃO</Text>
+        <Text style={styles.subtitle}>História, títulos e ídolos. Mostre que você conhece o Coringão.</Text>
 
-          <Text
-            style={[
-              styles.titleMain,
-              { fontSize: dynamicStyles.fontSize.title },
-            ]}
-          >
-            QUIZ MASTER
-          </Text>
-          <Text
-            style={[
-              styles.subtitle,
-              { fontSize: dynamicStyles.fontSize.subtitle },
-            ]}
-          >
-            Teste seus Conhecimentos
-          </Text>
+        <View style={styles.hero}>
+          <View style={styles.heroGlow} />
+          <ClubMark size={logoSize} />
         </View>
 
-        {/* Logo */}
-        <View
-          style={[
-            styles.imageContainer,
-            { height: Math.max(120, dynamicStyles.logoSize + 20) },
-          ]}
-        >
-          <Image
-            source={{
-              uri: 'https://upload.wikimedia.org/wikipedia/pt/thumb/a/a5/Corinthians_simbolo.svg/220px-Corinthians_simbolo.svg.png',
-            }}
-            style={{
-              width: dynamicStyles.logoSize,
-              height: dynamicStyles.logoSize,
-            }}
-            resizeMode="contain"
-          />
+        <View style={[styles.stats, !wide && styles.statsCompact]}>
+          <View style={styles.stat}><MaterialCommunityIcons name="help-circle-outline" size={22} color={COLORS.red} /><Text style={styles.statValue}>{totalQuestions}</Text><Text style={styles.statLabel}>perguntas</Text></View>
+          <View style={styles.divider} />
+          <View style={styles.stat}><MaterialCommunityIcons name="clock-fast" size={22} color={COLORS.red} /><Text style={styles.statValue}>~5</Text><Text style={styles.statLabel}>minutos</Text></View>
+          <View style={styles.divider} />
+          <View style={styles.stat}><MaterialCommunityIcons name="trophy-outline" size={22} color={COLORS.red} /><Text style={styles.statValue}>100%</Text><Text style={styles.statLabel}>é a meta</Text></View>
         </View>
 
-        {/* Descrição */}
-        <View
-          style={[
-            styles.descriptionCard,
-            { marginBottom: dynamicStyles.headerGap * 2 },
-          ]}
-        >
-          <MaterialCommunityIcons
-            name="information-outline"
-            size={Math.max(20, width * 0.06)}
-            color={THEME_COLORS.accent}
-          />
-          <Text
-            style={[
-              styles.descriptionTitle,
-              { fontSize: dynamicStyles.fontSize.card + 2 },
-            ]}
-          >
-            Sobre o Quiz
-          </Text>
-          <Text
-            style={[
-              styles.descriptionText,
-              { fontSize: dynamicStyles.fontSize.card - 1 },
-            ]}
-          >
-            Teste seus conhecimentos com 12 perguntas envolventes. Desafie-se e
-            veja como você se sai!
-          </Text>
-        </View>
-
-        {/* Estatísticas */}
-        <View
-          style={[
-            styles.statsContainer,
-            { gap: dynamicStyles.headerGap, marginBottom: dynamicStyles.headerGap * 2 },
-          ]}
-        >
-          <View style={styles.statBox}>
-            <MaterialCommunityIcons
-              name="help-circle"
-              size={Math.max(20, width * 0.07)}
-              color={THEME_COLORS.accent}
-            />
-            <Text
-              style={[
-                styles.statNumber,
-                { fontSize: dynamicStyles.fontSize.stat },
-              ]}
-            >
-              12
-            </Text>
-            <Text
-              style={[
-                styles.statLabel,
-                { fontSize: dynamicStyles.fontSize.card - 2 },
-              ]}
-            >
-              Perguntas
-            </Text>
-          </View>
-
-          <View style={styles.statBox}>
-            <MaterialCommunityIcons
-              name="clock-outline"
-              size={Math.max(20, width * 0.07)}
-              color={THEME_COLORS.accent}
-            />
-            <Text
-              style={[
-                styles.statNumber,
-                { fontSize: dynamicStyles.fontSize.stat },
-              ]}
-            >
-              5
-            </Text>
-            <Text
-              style={[
-                styles.statLabel,
-                { fontSize: dynamicStyles.fontSize.card - 2 },
-              ]}
-            >
-              Minutos
-            </Text>
-          </View>
-
-          <View style={styles.statBox}>
-            <MaterialCommunityIcons
-              name="trophy-outline"
-              size={Math.max(20, width * 0.07)}
-              color={THEME_COLORS.accent}
-            />
-            <Text
-              style={[
-                styles.statNumber,
-                { fontSize: dynamicStyles.fontSize.stat },
-              ]}
-            >
-              100
-            </Text>
-            <Text
-              style={[
-                styles.statLabel,
-                { fontSize: dynamicStyles.fontSize.card - 2 },
-              ]}
-            >
-              Pontos
-            </Text>
-          </View>
-        </View>
-
-        {/* Botão principal */}
-        <TouchableOpacity
-          style={[
-            styles.startButton,
-            { marginBottom: dynamicStyles.headerGap * 2 },
-          ]}
-          onPress={onStartQuiz}
-          activeOpacity={0.75}
-        >
-          <MaterialCommunityIcons
-            name="play-circle"
-            size={Math.max(20, width * 0.06)}
-            color={THEME_COLORS.primary}
-          />
-          <Text
-            style={[
-              styles.startButtonText,
-              { fontSize: Math.max(14, width * 0.045) },
-            ]}
-          >
-            INICIAR QUIZ
-          </Text>
-          <MaterialCommunityIcons
-            name="arrow-right"
-            size={Math.max(20, width * 0.06)}
-            color={THEME_COLORS.primary}
-          />
+        <TouchableOpacity accessibilityRole="button" accessibilityLabel="Iniciar quiz do Corinthians" onPress={onStartQuiz} activeOpacity={0.82} style={styles.startButton}>
+          <Text style={styles.startText}>COMEÇAR DESAFIO</Text>
+          <View style={styles.startIcon}><MaterialCommunityIcons name="arrow-right" size={22} color={COLORS.white} /></View>
         </TouchableOpacity>
-
-        {/* Footer */}
-        <View style={styles.footer}>
-          <Text style={[styles.footerText, { fontSize: dynamicStyles.fontSize.card }]}>
-            Preto ▪ Branco ▪ Dourado
-          </Text>
-          <Text
-            style={[
-              styles.footerSubtext,
-              { fontSize: dynamicStyles.fontSize.card - 2 },
-            ]}
-          >
-            Design Premium & Responsivo
-          </Text>
-        </View>
+        <Text style={styles.footer}>VAI, CORINTHIANS! • DESDE 1910</Text>
       </View>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: THEME_COLORS.primary,
-  },
-  content: {
-    flexGrow: 1,
-    justifyContent: 'space-between',
-  },
-  header: {
-    alignItems: 'center',
-  },
-  badge: {
-    backgroundColor: THEME_COLORS.darkGray,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 3,
-    borderColor: THEME_COLORS.accent,
-    marginBottom: 16,
-  },
-  titleMain: {
-    fontWeight: '900',
-    color: THEME_COLORS.secondary,
-    letterSpacing: 2,
-    marginBottom: 6,
-    textAlign: 'center',
-  },
-  subtitle: {
-    color: THEME_COLORS.accent,
-    fontWeight: '600',
-    letterSpacing: 0.5,
-    textAlign: 'center',
-  },
-  imageContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 20,
-  },
-  descriptionCard: {
-    backgroundColor: THEME_COLORS.darkGray,
-    borderRadius: 12,
-    padding: 16,
-    borderLeftWidth: 4,
-    borderLeftColor: THEME_COLORS.accent,
-    alignItems: 'center',
-  },
-  descriptionTitle: {
-    fontWeight: '700',
-    color: THEME_COLORS.secondary,
-    marginTop: 10,
-    marginBottom: 8,
-  },
-  descriptionText: {
-    color: THEME_COLORS.textSecondary,
-    lineHeight: 20,
-    textAlign: 'center',
-  },
-  statsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-  },
-  statBox: {
-    flex: 1,
-    backgroundColor: THEME_COLORS.darkGray,
-    borderRadius: 12,
-    padding: 12,
-    alignItems: 'center',
-    borderWidth: 1.5,
-    borderColor: THEME_COLORS.accent,
-    marginHorizontal: 4,
-  },
-  statNumber: {
-    fontWeight: '900',
-    color: THEME_COLORS.accent,
-    marginVertical: 6,
-  },
-  statLabel: {
-    color: THEME_COLORS.textMuted,
-    fontWeight: '600',
-    textAlign: 'center',
-  },
-  startButton: {
-    backgroundColor: THEME_COLORS.accent,
-    borderRadius: 12,
-    paddingVertical: 14,
-    paddingHorizontal: 20,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 10,
-    shadowColor: THEME_COLORS.accent,
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.4,
-    shadowRadius: 12,
-    elevation: 8,
-  },
-  startButtonText: {
-    color: THEME_COLORS.primary,
-    fontWeight: '900',
-    letterSpacing: 1,
-  },
-  footer: {
-    alignItems: 'center',
-    paddingTop: 16,
-    borderTopWidth: 1,
-    borderTopColor: THEME_COLORS.gray,
-  },
-  footerText: {
-    fontWeight: '700',
-    color: THEME_COLORS.accent,
-    marginBottom: 4,
-  },
-  footerSubtext: {
-    color: THEME_COLORS.textMuted,
-    fontWeight: '600',
-  },
+  screen: { flex: 1, backgroundColor: COLORS.black },
+  scrollContent: { flexGrow: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 16 },
+  content: { alignItems: 'center' },
+  eyebrow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 12 },
+  redDot: { width: 7, height: 7, borderRadius: 4, backgroundColor: COLORS.red },
+  eyebrowText: { color: COLORS.textSoft, fontSize: 12, fontWeight: '800', letterSpacing: 2.2 },
+  title: { color: COLORS.white, textAlign: 'center', fontSize: 44, lineHeight: 43, fontWeight: '900', letterSpacing: -1.5 },
+  titleWide: { fontSize: 58, lineHeight: 56 },
+  subtitle: { maxWidth: 500, color: COLORS.muted, fontSize: 16, lineHeight: 23, textAlign: 'center', marginTop: 14 },
+  hero: { height: 250, width: '100%', alignItems: 'center', justifyContent: 'center' },
+  heroGlow: { position: 'absolute', width: 200, height: 200, borderRadius: 100, backgroundColor: COLORS.redSoft, transform: [{ scaleX: 1.45 }] },
+  mark: { padding: 9, backgroundColor: COLORS.white, borderWidth: 5, borderColor: COLORS.red, ...SHADOW },
+  markRing: { flex: 1, borderWidth: 5, borderColor: COLORS.black, alignItems: 'center', justifyContent: 'center', backgroundColor: COLORS.white },
+  markTop: { color: COLORS.black, fontWeight: '900', letterSpacing: 2 },
+  markLetters: { color: COLORS.black, fontWeight: '900', letterSpacing: -2, lineHeight: 52 },
+  markLine: { width: '54%', height: 4, backgroundColor: COLORS.red, marginVertical: 3 },
+  markYear: { color: COLORS.red, fontWeight: '900', letterSpacing: 3 },
+  stats: { width: '100%', flexDirection: 'row', alignItems: 'center', backgroundColor: COLORS.surface, borderWidth: 1, borderColor: COLORS.border, borderRadius: RADIUS.large, paddingVertical: 18, marginBottom: 18 },
+  statsCompact: { paddingHorizontal: 4 },
+  stat: { flex: 1, alignItems: 'center' },
+  statValue: { color: COLORS.white, fontWeight: '900', fontSize: 20, marginTop: 5 },
+  statLabel: { color: COLORS.muted, fontSize: 11, marginTop: 2 },
+  divider: { height: 42, width: 1, backgroundColor: COLORS.border },
+  startButton: { width: '100%', minHeight: 62, borderRadius: RADIUS.medium, backgroundColor: COLORS.red, paddingLeft: 22, paddingRight: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', ...SHADOW },
+  startText: { color: COLORS.white, fontWeight: '900', fontSize: 15, letterSpacing: 1.2 },
+  startIcon: { width: 44, height: 44, borderRadius: 22, backgroundColor: COLORS.redDark, alignItems: 'center', justifyContent: 'center' },
+  footer: { color: COLORS.muted, fontSize: 10, fontWeight: '800', letterSpacing: 1.5, marginTop: 18 },
 });

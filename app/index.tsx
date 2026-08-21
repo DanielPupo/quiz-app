@@ -1,75 +1,62 @@
-import React, { useState } from 'react';
-import { View } from 'react-native';
+import React, { useCallback, useState } from 'react';
 import HomeScreen from '../components/HomeScreen';
-import QuizScreenNew from '../components/QuizScreenNew';
-import ResultScreenNew from '../components/ResultScreenNew';
+import QuizScreen from '../components/QuizScreenNew';
+import ResultScreen from '../components/ResultScreenNew';
 import questions from '../questions.json';
 
-type AppState = 'home' | 'quiz' | 'result';
+type Screen = 'home' | 'quiz' | 'result';
 
 export default function HomePage() {
-  const [appState, setAppState] = useState<AppState>('home');
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [screen, setScreen] = useState<Screen>('home');
+  const [questionIndex, setQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  const [isAnswered, setIsAnswered] = useState(false);
   const [score, setScore] = useState(0);
 
-  const handleStartQuiz = () => {
-    setAppState('quiz');
-    setCurrentQuestionIndex(0);
+  const startQuiz = useCallback(() => {
+    setQuestionIndex(0);
     setSelectedOption(null);
-    setIsAnswered(false);
     setScore(0);
-  };
+    setScreen('quiz');
+  }, []);
 
-  const handleOptionPress = (option: string) => {
-    const currentQuestion = questions[currentQuestionIndex];
-    if (option === currentQuestion.correctAnswer) {
-      setScore(score + 1);
-    }
+  const selectOption = useCallback((option: string) => {
+    if (selectedOption !== null) return;
     setSelectedOption(option);
-    setIsAnswered(true);
-  };
-
-  const handleNextQuestion = () => {
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-      setSelectedOption(null);
-      setIsAnswered(false);
-    } else {
-      setAppState('result');
+    if (option === questions[questionIndex].correctAnswer) {
+      setScore((currentScore) => currentScore + 1);
     }
-  };
+  }, [questionIndex, selectedOption]);
 
-  const handlePlayAgain = () => {
-    handleStartQuiz();
-  };
+  const nextQuestion = useCallback(() => {
+    if (questionIndex === questions.length - 1) {
+      setScreen('result');
+      return;
+    }
+    setQuestionIndex((current) => current + 1);
+    setSelectedOption(null);
+  }, [questionIndex]);
+
+  if (screen === 'home') return <HomeScreen totalQuestions={questions.length} onStartQuiz={startQuiz} />;
+  if (screen === 'result') {
+    return (
+      <ResultScreen
+        score={score}
+        totalQuestions={questions.length}
+        onPlayAgain={startQuiz}
+        onGoHome={() => setScreen('home')}
+      />
+    );
+  }
 
   return (
-    <View style={{ flex: 1 }}>
-      {appState === 'home' && (
-        <HomeScreen onStartQuiz={handleStartQuiz} />
-      )}
-
-      {appState === 'quiz' && (
-        <QuizScreenNew
-          currentQuestionIndex={currentQuestionIndex}
-          selectedOption={selectedOption}
-          isAnswered={isAnswered}
-          score={score}
-          totalQuestions={questions.length}
-          onOptionPress={handleOptionPress}
-          onNextQuestion={handleNextQuestion}
-        />
-      )}
-
-      {appState === 'result' && (
-        <ResultScreenNew
-          score={score}
-          totalQuestions={questions.length}
-          onPlayAgain={handlePlayAgain}
-        />
-      )}
-    </View>
+    <QuizScreen
+      currentQuestionIndex={questionIndex}
+      selectedOption={selectedOption}
+      score={score}
+      totalQuestions={questions.length}
+      onOptionPress={selectOption}
+      onNextQuestion={nextQuestion}
+      onQuit={() => setScreen('home')}
+    />
   );
 }
