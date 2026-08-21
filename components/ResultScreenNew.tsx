@@ -1,3 +1,4 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useMemo } from 'react';
 import {
   Dimensions,
@@ -7,7 +8,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { THEME_COLORS } from '../constants/theme';
 
@@ -408,17 +408,5 @@ const styles = StyleSheet.create({
   footerText: {
     fontWeight: '700',
     color: THEME_COLORS.textMuted,
-  },
-});
-    letterSpacing: 1.5,
-  },
-  footer: {
-    marginTop: 20,
-  },
-  footerText: {
-    fontSize: 14,
-    color: COLORS.accent,
-    fontWeight: '700',
-    textAlign: 'center',
   },
 });
