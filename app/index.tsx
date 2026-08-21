@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import { View } from 'react-native';
 import HomeScreen from '../components/HomeScreen';
-import QuizScreenNew from '../components/QuizScreenNew';
-import ResultScreenNew from '../components/ResultScreenNew';
+import QuizScreen from '../components/QuizScreen';
+import ResultScreen from '../components/ResultScreen';
 import questions from '../questions.json';
 
 type AppState = 'home' | 'quiz' | 'result';
@@ -34,8 +34,8 @@ export default function HomePage() {
   return (
     <View style={{ flex: 1 }}>
       {appState === 'home' && <HomeScreen onStartQuiz={startQuiz} totalQuestions={questions.length} />}
-      {appState === 'quiz' && <QuizScreenNew currentQuestionIndex={currentQuestionIndex} selectedOption={selectedOption} isAnswered={selectedOption !== null} score={score} totalQuestions={questions.length} onOptionPress={answerQuestion} onNextQuestion={nextQuestion} onGoHome={goHome} />}
-      {appState === 'result' && <ResultScreenNew score={score} totalQuestions={questions.length} onPlayAgain={startQuiz} onGoHome={goHome} />}
+      {appState === 'quiz' && <QuizScreen currentQuestion={questions[currentQuestionIndex]} currentQuestionIndex={currentQuestionIndex} selectedOption={selectedOption} isOptionsDisabled={selectedOption !== null} score={score} totalQuestions={questions.length} onOptionPress={answerQuestion} onNextQuestion={nextQuestion} onGoHome={goHome} />}
+      {appState === 'result' && <ResultScreen score={score} totalQuestions={questions.length} onPlayAgain={startQuiz} onGoHome={goHome} />}
     </View>
   );
 }
