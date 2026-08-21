@@ -39,7 +39,7 @@ export default function QuizScreen({ currentQuestionIndex, selectedOption, score
         <View style={styles.header}>
           <TouchableOpacity accessibilityRole="button" accessibilityLabel="Sair do quiz" onPress={onQuit} style={styles.iconButton}><MaterialCommunityIcons name="close" size={22} color={COLORS.white} /></TouchableOpacity>
           <View style={styles.roundBadge}><Text style={styles.roundText}>{currentQuestionIndex + 1}</Text><Text style={styles.roundTotal}>/{totalQuestions}</Text></View>
-          <View style={styles.score}><MaterialCommunityIcons name="star-four-points" size={16} color={COLORS.red} /><Text style={styles.scoreText}>{score} acertos</Text></View>
+          <View style={styles.score}><MaterialCommunityIcons name="star-four-points" size={16} color={COLORS.white} /><Text style={styles.scoreText}>{score} acertos</Text></View>
         </View>
 
         <View accessibilityRole="progressbar" accessibilityValue={{ min: 0, max: totalQuestions, now: currentQuestionIndex + 1 }} style={styles.progress}><View style={[styles.progressFill, { width: `${((currentQuestionIndex + 1) / totalQuestions) * 100}%` }]} /></View>
@@ -89,7 +89,7 @@ export default function QuizScreen({ currentQuestionIndex, selectedOption, score
           {answered ? (
             <TouchableOpacity accessibilityRole="button" onPress={onNextQuestion} activeOpacity={0.82} style={styles.nextButton}>
               <Text style={styles.nextText}>{currentQuestionIndex === totalQuestions - 1 ? 'VER RESULTADO' : 'PRÓXIMA PERGUNTA'}</Text>
-              <MaterialCommunityIcons name="arrow-right" size={21} color={COLORS.white} />
+              <MaterialCommunityIcons name="arrow-right" size={21} color={COLORS.black} />
             </TouchableOpacity>
           ) : <Text style={styles.hint}>Escolha uma alternativa para continuar</Text>}
         </View>
@@ -109,10 +109,10 @@ const styles = StyleSheet.create({
   score: { minWidth: 92, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', gap: 5 },
   scoreText: { color: COLORS.textSoft, fontSize: 12, fontWeight: '700' },
   progress: { height: 4, borderRadius: 2, backgroundColor: COLORS.surfaceRaised, overflow: 'hidden', marginVertical: 8 },
-  progressFill: { height: '100%', backgroundColor: COLORS.red, borderRadius: 2 },
+  progressFill: { height: '100%', backgroundColor: COLORS.white, borderRadius: 2 },
   scroller: { flex: 1 },
   scrollContent: { paddingVertical: 24 },
-  kicker: { color: COLORS.red, fontSize: 11, fontWeight: '900', letterSpacing: 2.2, marginBottom: 10 },
+  kicker: { color: COLORS.textSoft, fontSize: 11, fontWeight: '900', letterSpacing: 2.2, marginBottom: 10 },
   question: { color: COLORS.white, fontSize: 25, lineHeight: 32, fontWeight: '800', letterSpacing: -0.4, marginBottom: 24 },
   options: { gap: 11 },
   option: { minHeight: 64, flexDirection: 'row', alignItems: 'center', gap: 13, padding: 11, paddingRight: 16, backgroundColor: COLORS.surface, borderRadius: RADIUS.medium, borderWidth: 1, borderColor: COLORS.border },
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
   feedbackTitle: { fontWeight: '900', fontSize: 15 },
   feedbackText: { color: COLORS.textSoft, marginTop: 3, fontSize: 13 },
   bottom: { minHeight: 66, justifyContent: 'center' },
-  nextButton: { minHeight: 56, borderRadius: RADIUS.medium, backgroundColor: COLORS.red, paddingHorizontal: 20, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  nextText: { color: COLORS.white, fontSize: 14, fontWeight: '900', letterSpacing: 0.8 },
+  nextButton: { minHeight: 56, borderRadius: RADIUS.medium, backgroundColor: COLORS.white, paddingHorizontal: 20, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  nextText: { color: COLORS.black, fontSize: 14, fontWeight: '900', letterSpacing: 0.8 },
   hint: { color: COLORS.muted, fontSize: 12, textAlign: 'center' },
 });
