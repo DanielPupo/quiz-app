@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS, RADIUS, SHADOWS, SPACING } from '../constants/theme';
 
 type Props = { onStartQuiz: () => void; totalQuestions: number };
-const CREST = 'https://upload.wikimedia.org/wikipedia/pt/thumb/a/a5/Corinthians_simbolo.svg/220px-Corinthians_simbolo.svg.png';
+const CREST = require('../assets/images/icon.png');
 
 export default function HomeScreen({ onStartQuiz, totalQuestions }: Props) {
   const insets = useSafeAreaInsets();
@@ -25,12 +25,12 @@ export default function HomeScreen({ onStartQuiz, totalQuestions }: Props) {
               <Text style={styles.buttonText}>COMEÇAR DESAFIO</Text><MaterialCommunityIcons name="arrow-right" size={22} color={COLORS.white} />
             </Pressable>
           </View>
-          <View style={styles.crestWrap}><View style={styles.crestHalo} /><Image source={{ uri: CREST }} style={{ width: logoSize, height: logoSize }} resizeMode="contain" accessibilityLabel="Escudo do Corinthians" /></View>
+          <View style={styles.crestWrap}><View style={styles.crestHalo} /><Image source={CREST} style={{ width: logoSize, height: logoSize, borderRadius: logoSize / 2 }} resizeMode="contain" accessibilityLabel="Símbolo SCCP 1910" /></View>
         </View>
         <View style={styles.infoCard}>
           <View style={styles.infoItem}><MaterialCommunityIcons name="help-circle-outline" size={24} color={COLORS.gold} /><Text style={styles.infoValue}>{totalQuestions}</Text><Text style={styles.infoLabel}>perguntas</Text></View>
           <View style={styles.divider} />
-          <View style={styles.infoItem}><MaterialCommunityIcons name="timer-outline" size={24} color={COLORS.gold} /><Text style={styles.infoValue}>~5 min</Text><Text style={styles.infoLabel}>de partida</Text></View>
+          <View style={styles.infoItem}><MaterialCommunityIcons name="timer-outline" size={24} color={COLORS.gold} /><Text style={styles.infoValue}>~12 min</Text><Text style={styles.infoLabel}>de partida</Text></View>
           <View style={styles.divider} />
           <View style={styles.infoItem}><MaterialCommunityIcons name="trophy-outline" size={24} color={COLORS.gold} /><Text style={styles.infoValue}>100%</Text><Text style={styles.infoLabel}>para gabaritar</Text></View>
         </View>
