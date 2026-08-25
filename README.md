@@ -22,11 +22,8 @@ Para registrar a evidência da entrega, abra o app e siga este roteiro:
 4. Responda corretamente antes do fim do tempo para demonstrar o bônus de velocidade.
 5. Na tela final, capture a pontuação, o ranking local e as conquistas.
 
-## Vídeo de demonstração:
-![iPhone-13-PRO-localhost-gyhh44hio97_db](https://github.com/user-attachments/assets/85f9daab-1733-459b-90f1-f6ab397533d0)
 
 ## Vídeo de Demonstração do aplicativo
-
 ![Demonstração do Quiz do Timão](assets/iPhone-13-PRO-localhost-334i6s1wiun4yg.webm)
 
 ## Funcionalidades
