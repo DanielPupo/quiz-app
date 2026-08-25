@@ -22,7 +22,6 @@ Para registrar a evidência da entrega, abra o app e siga este roteiro:
 4. Responda corretamente antes do fim do tempo para demonstrar o bônus de velocidade.
 5. Na tela final, capture a pontuação, o ranking local e as conquistas.
 
-As capturas podem ser salvas em `assets/images/demo/` e incorporadas aqui antes da publicação do repositório. Esse roteiro também funciona como checklist de validação no celular.
 
 ## Funcionalidades
 
