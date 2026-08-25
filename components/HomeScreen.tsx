@@ -10,7 +10,7 @@ function ClubMark({ size }: { size: number }) {
   return (
     <View accessible accessibilityLabel="Emblema estilizado do Corinthians" style={[styles.mark, { width: size, height: size, borderRadius: size / 2 }]}>
       <View style={[styles.markRing, { borderRadius: size / 2 }]}>
-        <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.7} style={[styles.markTop, { width: size * 0.72, fontSize: size * 0.1, lineHeight: size * 0.12 }]}>SPORT CLUB</Text>
+        <Text numberOfLines={1} style={[styles.markTop, { width: size * 0.84, fontSize: size * 0.085, lineHeight: size * 0.11, letterSpacing: size * 0.008 }]}>SPORT CLUB</Text>
         <Text style={[styles.markLetters, { fontSize: size * 0.27, lineHeight: size * 0.27 }]}>SCCP</Text>
         <View style={styles.markLine} />
         <Text style={[styles.markYear, { fontSize: size * 0.09 }]}>1910</Text>
@@ -24,7 +24,7 @@ export default function HomeScreen({ totalQuestions, onStartQuiz }: Props) {
   const { width } = useWindowDimensions();
   const wide = width >= 720;
   const contentWidth = Math.min(width - 32, 720);
-  const logoSize = Math.min(Math.max(width * 0.42, 148), 220);
+  const logoSize = Math.min(Math.max(width * 0.46, 168), 240);
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={[styles.scrollContent, { paddingTop: insets.top + 20, paddingBottom: insets.bottom + 28 }]} showsVerticalScrollIndicator={false}>
