@@ -77,20 +77,14 @@ quiz-app/
 │
 ├── components/
 │   ├── HomeScreen.tsx ................ Tela de início (NEW)
-│   ├── QuizScreenNew.tsx ............ Quiz melhorado (NEW)
-│   ├── ResultScreenNew.tsx ......... Resultado melhorado (NEW)
-│   ├── QuizScreen.tsx ............... Original (referência)
-│   └── ResultScreen.tsx ............. Original (referência)
+│   ├── QuizScreenNew.tsx ............ Tela ativa do quiz
+│   └── ResultScreenNew.tsx .......... Tela ativa de resultado
 │
 ├── constants/
 │   └── theme.ts ..................... Cores e estilos (NEW)
 │
-├── hooks/
-│   └── useSound.ts .................. Sons (ATUALIZADO)
-│
 ├── assets/
-│   ├── images/ ...................... Pasta pronta
-│   └── sounds/ ...................... Pasta pronta
+│   └── images/ ...................... Ícones e splash screen
 │
 ├── 📄 README.md ..................... Visão geral
 ├── 📄 GUIA_RAPIDO.md ................ Como usar rápido

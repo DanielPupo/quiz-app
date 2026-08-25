@@ -3,8 +3,8 @@ import * as Haptics from 'expo-haptics';
 import React from 'react';
 import { Platform, ScrollView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { COLORS, RADIUS } from '../constants/theme';
 import { getExplanation } from '../constants/game';
+import { COLORS, RADIUS } from '../constants/theme';
 
 const LETTERS = ['A', 'B', 'C', 'D'];
 type Props = {
@@ -24,6 +24,7 @@ export default function QuizScreen({ currentQuestionIndex, question, selectedOpt
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
   const answered = selectedOption !== null;
+  const timedOut = selectedOption === '__timeout__';
   const selectedIsCorrect = selectedOption === question.correctAnswer;
   const maxWidth = Math.min(width - 28, 760);
 
@@ -78,10 +79,10 @@ export default function QuizScreen({ currentQuestionIndex, question, selectedOpt
 
           {answered && (
             <View accessibilityLiveRegion="polite" style={[styles.feedback, selectedIsCorrect ? styles.feedbackCorrect : styles.feedbackWrong]}>
-              <MaterialCommunityIcons name={selectedIsCorrect ? 'check-decagram' : 'information-outline'} size={24} color={selectedIsCorrect ? COLORS.success : COLORS.error} />
+              <MaterialCommunityIcons name={selectedIsCorrect ? 'check-decagram' : timedOut ? 'timer-off-outline' : 'information-outline'} size={24} color={selectedIsCorrect ? COLORS.success : COLORS.error} />
               <View style={styles.feedbackCopy}>
-                <Text style={[styles.feedbackTitle, { color: selectedIsCorrect ? COLORS.success : COLORS.error }]}>{selectedIsCorrect ? 'Mandou bem!' : 'Não foi dessa vez'}</Text>
-                <Text style={styles.feedbackText}>{getExplanation(question.question, question.correctAnswer)}</Text>
+                <Text style={[styles.feedbackTitle, { color: selectedIsCorrect ? COLORS.success : COLORS.error }]}>{selectedIsCorrect ? 'Mandou bem!' : timedOut ? 'Tempo esgotado' : 'Não foi dessa vez'}</Text>
+                <Text style={styles.feedbackText}>{timedOut ? `A resposta era: ${question.correctAnswer}.` : getExplanation(question.question, question.correctAnswer)}</Text>
               </View>
             </View>
           )}
@@ -107,7 +108,6 @@ const styles = StyleSheet.create({
   iconButton: { width: 42, height: 42, borderRadius: 21, backgroundColor: COLORS.surface, borderWidth: 1, borderColor: COLORS.border, alignItems: 'center', justifyContent: 'center' },
   roundBadge: { flexDirection: 'row', alignItems: 'baseline' },
   roundText: { color: COLORS.white, fontSize: 20, fontWeight: '900' },
-  roundTotal: { color: COLORS.muted, fontSize: 13, fontWeight: '700' },
   timer: { color: COLORS.textSoft, fontSize: 13, fontWeight: '800' },
   score: { minWidth: 92, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', gap: 5 },
   scoreText: { color: COLORS.textSoft, fontSize: 12, fontWeight: '700' },

@@ -48,7 +48,7 @@ export default function GameSetupScreen({ progress, totalQuestions, onBack, onSt
           return <TouchableOpacity key={campaign.id} disabled={!previousCompleted} onPress={() => setCampaignId(campaign.id)} style={[styles.campaign, selected && styles.selectedCard, !previousCompleted && styles.locked]}><MaterialCommunityIcons name={completed ? 'check-circle' : previousCompleted ? 'stadium' : 'lock'} size={22} color={completed ? COLORS.success : COLORS.white} /><View style={styles.modeCopy}><Text style={styles.modeTitle}>{campaign.title}</Text><Text style={styles.modeDescription}>{campaign.period} • {campaign.indexes.length} perguntas</Text></View></TouchableOpacity>;
         })}</View>}
 
-        <View style={styles.rules}><MaterialCommunityIcons name="heart" size={20} color={COLORS.error} /><Text style={styles.rulesText}>3 vidas</Text><View style={styles.dot} /><MaterialCommunityIcons name="timer-outline" size={20} color={COLORS.white} /><Text style={styles.rulesText}>{GAME_RULES[mode].seconds}s por pergunta</Text></View>
+        <View style={styles.rules}><MaterialCommunityIcons name="heart" size={20} color={COLORS.error} /><Text style={styles.rulesText}>{GAME_RULES[mode].lives} vidas</Text><View style={styles.dot} /><MaterialCommunityIcons name="timer-outline" size={20} color={COLORS.white} /><Text style={styles.rulesText}>{GAME_RULES[mode].seconds}s por pergunta</Text></View>
         <TouchableOpacity onPress={start} style={styles.start}><Text style={styles.startText}>INICIAR PARTIDA</Text><MaterialCommunityIcons name="arrow-right" size={21} color={COLORS.black} /></TouchableOpacity>
       </View>
     </ScrollView>

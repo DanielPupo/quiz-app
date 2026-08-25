@@ -1,12 +1,12 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import GameSetupScreen from '../components/GameSetupScreen';
 import HomeScreen from '../components/HomeScreen';
 import QuizScreen from '../components/QuizScreenNew';
 import ResultScreen from '../components/ResultScreenNew';
 import { CAMPAIGNS, DEFAULT_PROGRESS } from '../constants/game';
+import questions from '../questions.json';
 import { addToRanking, loadProgress, saveProgress } from '../services/progressStorage';
 import { AchievementId, GameConfig, GameResult, PlayerProgress } from '../types/game';
-import questions from '../questions.json';
 
 type Screen = 'home' | 'setup' | 'quiz' | 'result';
 
@@ -78,7 +78,7 @@ export default function HomePage() {
     setPosition((value) => value + 1); setSelectedOption(null); setSecondsLeft(config.secondsPerQuestion);
   }, [config, finishGame, lives, position]);
 
-  const ranking = useMemo(() => progress.ranking.slice(0, 5), [progress.ranking]);
+  const ranking = progress.ranking.slice(0, 5);
   if (screen === 'home') return <HomeScreen totalQuestions={questions.length} onStartQuiz={() => setScreen('setup')} />;
   if (screen === 'setup') return <GameSetupScreen progress={progress} totalQuestions={questions.length} onBack={() => setScreen('home')} onStart={startGame} />;
   if (screen === 'result' && result) return <ResultScreen result={result} ranking={ranking} unlockedAchievements={progress.unlockedAchievements} newAchievements={newAchievements} onPlayAgain={() => config && startGame(config)} onGoHome={() => setScreen('home')} />;
