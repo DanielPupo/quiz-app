@@ -24,7 +24,7 @@ Para registrar a evidência da entrega, abra o app e siga este roteiro:
 
 
 ## 🎥 Vídeo de demonstração
-https://github.com/user-attachments/assets/iPhone-13-PRO-localhost-334i6s1wiun4yg.webm
+https://github.com/user-attachments/assets/iPhone-13-PRO-localhost-334i6s1wiun4yg.gif
 
 ## Funcionalidades
 
