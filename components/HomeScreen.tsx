@@ -10,8 +10,8 @@ function ClubMark({ size }: { size: number }) {
   return (
     <View accessible accessibilityLabel="Emblema estilizado do Corinthians" style={[styles.mark, { width: size, height: size, borderRadius: size / 2 }]}>
       <View style={[styles.markRing, { borderRadius: size / 2 }]}>
-        <Text style={[styles.markTop, { fontSize: size * 0.1 }]}>SPORT CLUB</Text>
-        <Text style={[styles.markLetters, { fontSize: size * 0.27 }]}>SCCP</Text>
+        <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.7} style={[styles.markTop, { width: size * 0.72, fontSize: size * 0.1, lineHeight: size * 0.12 }]}>SPORT CLUB</Text>
+        <Text style={[styles.markLetters, { fontSize: size * 0.27, lineHeight: size * 0.27 }]}>SCCP</Text>
         <View style={styles.markLine} />
         <Text style={[styles.markYear, { fontSize: size * 0.09 }]}>1910</Text>
       </View>
@@ -70,8 +70,8 @@ const styles = StyleSheet.create({
   heroGlow: { position: 'absolute', width: 200, height: 200, borderRadius: 100, backgroundColor: COLORS.surfaceRaised, opacity: 0.62, transform: [{ scaleX: 1.45 }] },
   mark: { padding: 9, backgroundColor: COLORS.white, borderWidth: 5, borderColor: COLORS.white, ...SHADOW },
   markRing: { flex: 1, borderWidth: 5, borderColor: COLORS.black, alignItems: 'center', justifyContent: 'center', backgroundColor: COLORS.white },
-  markTop: { color: COLORS.black, fontWeight: '900', letterSpacing: 2 },
-  markLetters: { color: COLORS.black, fontWeight: '900', letterSpacing: -2, lineHeight: 52 },
+  markTop: { color: COLORS.black, fontWeight: '900', letterSpacing: 2, textAlign: 'center' },
+  markLetters: { color: COLORS.black, fontWeight: '900', letterSpacing: -2, textAlign: 'center' },
   markLine: { width: '54%', height: 4, backgroundColor: COLORS.red, marginVertical: 3 },
   markYear: { color: COLORS.red, fontWeight: '900', letterSpacing: 3 },
   stats: { width: '100%', flexDirection: 'row', alignItems: 'center', backgroundColor: COLORS.surface, borderWidth: 1, borderColor: COLORS.border, borderRadius: RADIUS.large, paddingVertical: 18, marginBottom: 18 },
